@@ -6,7 +6,7 @@ class MQTTPublisher {
         this.topics = Array.isArray(topics) ? topics : [topics];
         this.count = 1;
 
-        this.frequency = 500;
+        this.frequency = 1500;
         var amp = 2;
         this.amplitude = ((amp * 0.5) / (3.3 / 65535));
         this.offset = 32768;
