@@ -19,6 +19,18 @@ app.post('/login', async (req, res) => {
         res.send('Invalid credentials');
     }
 });
+
+app.post('/signin', async (req, res) => {
+    const { username, password } = req.body;
+    const user = await user.findOne({ username });
+    if (user && await bcrypt.compare(password, user.password)) {
+        req.session.userId = user._id;
+        res.send('Login successful!');
+    } else {
+        res.send('Invalid credential');
+    }
+});
+
 app.listen (3000,()=>{
     console.log("listning port")
 }
