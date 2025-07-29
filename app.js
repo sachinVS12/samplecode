@@ -52,3 +52,16 @@ router.post('/signin', async (req, res) => {
   }
 });
 
+app.post('/signup', async (req, res) => {
+    try {
+    const { username, password } = req.body;
+    const hash = await bcrypt.hash(password, 10);
+    await User.create({ username, password: hash });
+        res.send('signup succesfull');
+    }
+    catch (err) {
+        console.log(err);
+    }
+    });
+
+
