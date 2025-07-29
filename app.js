@@ -64,4 +64,32 @@ app.post('/signup', async (req, res) => {
     }
     });
 
+app.post('/login', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        const user = await User.findOne({ username });                  
+        if (user && await bcrypt.compare(password, user.password)) {
+            req.session.userId = user._id;
+            res.send('Login successful!');
+        } else {
+            res.send('Invalid credentials');
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+app.post('/task', async (req, res) => {     
+try{
+    const { task } = req.body;
+    const user = await User.findById(req.session.userId);
+    user.tasks.push(task);
+    await user.save();
+    res.send('Task added successfully!');
+}
+catch (err) {
+    console.log(err);
+}
+});
 
