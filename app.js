@@ -4,13 +4,51 @@ const bcrypt = require("bcrypt");
 const app = express();
 
 
-app.post('/signup', async(req, res)=>{
-    try{
-    const {username, password} = req.body;
-    const hash = await bcrypt.hash(password, 10);
-    await User.create({username, password: hash});
-    res.send('signup succesfull');
-}catch(error){
+// Register a new user
+router.post('/register', async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
 
-}});
+    let user = await User.findOne({ email });
+    if (user) {
+      return res.status(400).json({ msg: 'User already exists' });
+    }
+
+    user = new User({ name, email, password });
+    await user.save();
+
+    const payload = { id: user.id };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    res.status(201).json({ token });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+// Login user
+router.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ msg: 'Invalid credentials' });
+    }
+
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return res.status(400).json({ msg: 'Invalid credentials' });
+    }
+
+    const payload = { id: user.id };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    res.json({ token });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
 
