@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const app = express();
 
 
-// Register a new user
+// Signup a new user
 router.post('/signup', async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -27,7 +27,7 @@ router.post('/signup', async (req, res) => {
   }
 });
 
-// Login user
+// Signin user
 router.post('/signin', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -91,5 +91,19 @@ try{
 catch (err) {
     console.log(err);
 }
+});
+
+
+app.get('/tasks', async (req, res) => {
+    try {
+        const user = await User.findById(req.session.userId);
+        res.json(user.tasks);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+app.listen(3000, () => {
+    console.log('Server started on port 3000');
 });
 
