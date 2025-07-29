@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const app = express();
 
 
-app.post('/signin', async(req, res)=>{
+app.post('/signup', async(req, res)=>{
     try{
     const {username, password} = req.body;
     const hash = await bcrypt.hash(password, 10);
