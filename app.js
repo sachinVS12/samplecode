@@ -102,7 +102,7 @@ app.get('/tasks', async (req, res) => {
         console.log(err);
     }
 });
-app.post('/signin', async (req, res) => {
+app.post('/erros', async (req, res) => {
   try{
     const { username, password } = req.body;
     const user = await user.findOne({ username });
