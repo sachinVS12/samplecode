@@ -102,6 +102,14 @@ app.get('/tasks', async (req, res) => {
         console.log(err);
     }
 });
+app.post('/signin', async (req, res) => {
+  try{
+    const { username, password } = req.body;
+    const user = await user.findOne({ username });
+  }catch(err){
+    console.log(err);
+  }
+});
 
 app.listen(3000, () => {
     console.log('Server started on port 3000');
