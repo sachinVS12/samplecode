@@ -119,6 +119,48 @@ app.delete('/users/:id', (req, res) => {
     res.status(404).send('User not found');
   }
 });
+
+
+// CREATE - Add a new todo
+router.post('/', (req, res) => {
+  const newTodo = { id: Date.now(), ...req.body };
+  todos.push(newTodo);
+  res.status(201).json(newTodo);
+});
+
+// READ ALL - Get all todos
+router.get('/', (req, res) => {
+  res.json(todos);
+});
+
+// READ ONE - Get a single todo by ID
+router.get('/:id', (req, res) => {
+  const todo = todos.find(t => t.id == req.params.id);
+  todo ? res.json(todo) : res.status(404).send('Todo not found');
+});
+
+// UPDATE - Update a todo by ID
+router.put('/:id', (req, res) => {
+  const index = todos.findIndex(t => t.id == req.params.id);
+  if (index !== -1) {
+    todos[index] = { ...todos[index], ...req.body };
+    res.json(todos[index]);
+  } else {
+    res.status(404).send('Todo not found');
+  }
+});
+
+// DELETE - Delete a todo by ID
+router.delete('/:id', (req, res) => {
+  const index = todos.findIndex(t => t.id == req.params.id);
+  if (index !== -1) {
+    const deleted = todos.splice(index, 1);
+    res.json(deleted[0]);
+  } else {
+    res.status(404).send('Todo not found');
+  }
+});
+
 app.listen(3000, () => {
     console.log('Server started on port 3000');
 });
