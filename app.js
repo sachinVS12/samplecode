@@ -80,81 +80,45 @@ app.post('/login', async (req, res) => {
     }
 });
 
-app.post('/task', async (req, res) => {     
-try{
-    const { task } = req.body;
-    const user = await User.findById(req.session.userId);
-    user.tasks.push(task);
-    await user.save();
-    res.send('Task added successfully!');
-}
-catch (err) {
-    console.log(err);
-}
+// ✅ CREATE - POST /users
+app.post('/users', (req, res) => {
+  const newUser = { id: Date.now(), ...req.body };
+  users.push(newUser);
+  res.status(201).json(newUser);
 });
 
-
-app.get('/id:tasks', async (req, res) => {
-    try {
-        const user = await User.findById(req.session.userId);
-        res.json(user.tasks);
-    } catch (err) {
-        console.log(err);
-    }
+// 📖 READ ALL - GET /users
+app.get('/users', (req, res) => {
+  res.json(users);
 });
-app.post('/erros', async (req, res) => {
-  try{
-    const { username, password } = req.body;
-    const user = await user.findOne({ username });
-  }catch(err){
-    console.log(err);
+
+// 📖 READ ONE - GET /users/:id
+app.get('/users/:id', (req, res) => {
+  const user = users.find(u => u.id == req.params.id);
+  user ? res.json(user) : res.status(404).send('User not found');
+});
+
+// ✏️ UPDATE - PUT /users/:id
+app.put('/users/:id', (req, res) => {
+  const index = users.findIndex(u => u.id == req.params.id);
+  if (index !== -1) {
+    users[index] = { ...users[index], ...req.body };
+    res.json(users[index]);
+  } else {
+    res.status(404).send('User not found');
   }
 });
 
-app.get('/all', async (req, res) => {
-  try {
-    const users = await User.find();
-    res.json(users);
-  } catch (err) {
-    console.log(err);
+// ❌ DELETE - DELETE /users/:id
+app.delete('/users/:id', (req, res) => {
+  const index = users.findIndex(u => u.id == req.params.id);
+  if (index !== -1) {
+    const deletedUser = users.splice(index, 1);
+    res.json(deletedUser[0]);
+  } else {
+    res.status(404).send('User not found');
   }
 });
-
-app.read('/read', async (req, res) => {
-  try {
-    const user = await User.findById(req.session.userId);
-    res.json(user);
-  } catch (err) {
-    console.log(err);
-  }
-});
-
-app.update('/update', async (req, res) => {
-  try {
-      const { username, password } = req.body;
-      const user = await User.findById(req.session.userId);
-      user.username = username;
-      user.password = password;
-      await user.save();                            
-      res.send('User updated successfully!');
-  } catch (err) {
-      console.log(err);
-  }
-});
-
-
-
-
-app.delete('/delete', async (req, res) => {
-  try {
-        const user = await User.findByIdAndDelete(req.session.userId);
-        req.session.destroy();
-        res.send('User deleted successfully!');
-    } catch (err) {
-        console.log(err);
-    }
-});
-
 app.listen(3000, () => {
     console.log('Server started on port 3000');
 });
