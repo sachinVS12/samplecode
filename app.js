@@ -94,7 +94,7 @@ catch (err) {
 });
 
 
-app.get('/tasks', async (req, res) => {
+app.get('/id:tasks', async (req, res) => {
     try {
         const user = await User.findById(req.session.userId);
         res.json(user.tasks);
