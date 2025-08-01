@@ -120,6 +120,31 @@ app.get('/all', async (req, res) => {
   }
 });
 
+app.read('/read', async (req, res) => {
+  try {
+    const user = await User.findById(req.session.userId);
+    res.json(user);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+app.update('/update', async (req, res) => {
+  try {
+      const { username, password } = req.body;
+      const user = await User.findById(req.session.userId);
+      user.username = username;
+      user.password = password;
+      await user.save();                            
+      res.send('User updated successfully!');
+  } catch (err) {
+      console.log(err);
+  }
+});
+
+
+
+
 app.delete('/delete', async (req, res) => {
   try {
         const user = await User.findByIdAndDelete(req.session.userId);
