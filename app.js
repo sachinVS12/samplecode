@@ -188,6 +188,23 @@ app.router('/topic', (req, res  ) => {
   res.send('Topic subscribed successfully');
 });
 
+app.post('/socket', (req, res) => { 
+  const { message } = req.body;
+  if (!message) {
+    return res.status(400).send('Message is required');
+  }
+   client.publish('socket', message);
+  res.send('Message published successfully');
+});
+
+app.post('/emit', (req, res) => {
+  const { message } = req.body;
+if (!message) {
+  return res.status(400).send('Message is required');
+}
+  client.publish('emit', message);
+  res.send('Message published successfully');
+})
 
 app.listen(3000, () => {
     console.log('Server started on port 3000');
