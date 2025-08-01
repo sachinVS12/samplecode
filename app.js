@@ -120,6 +120,16 @@ app.get('/all', async (req, res) => {
   }
 });
 
+app.delete('/delete', async (req, res) => {
+  try {
+        const user = await User.findByIdAndDelete(req.session.userId);
+        req.session.destroy();
+        res.send('User deleted successfully!');
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 app.listen(3000, () => {
     console.log('Server started on port 3000');
 });
