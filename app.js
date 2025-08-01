@@ -161,6 +161,34 @@ router.delete('/:id', (req, res) => {
   }
 });
 
+app.post('/mqtt', (req, res) => {
+    const { topic, message } = req.body;      
+    if (!topic || !message) {
+        return res.status(400).send('Topic and message are required');
+    }
+    client.publish(topic, message);
+    res.send('Message published successfully');
+    });
+
+app.post('label', (req, res) =>{
+  const { label } = req.body;
+  if (!label) {
+    return res.status(400).send('Label is required');
+  } 
+  client.publish('label', label);
+  res.send('Label published successfully');   
+});
+
+app.router('/topic', (req, res  ) => {
+  const { topic } = req.body;
+  if (!topic) {
+    return res.status(400).send('Topic is required');
+  }
+  client.subscribe(topic);
+  res.send('Topic subscribed successfully');
+});
+
+
 app.listen(3000, () => {
     console.log('Server started on port 3000');
 });
