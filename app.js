@@ -111,6 +111,15 @@ app.post('/erros', async (req, res) => {
   }
 });
 
+app.get('/all', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 app.listen(3000, () => {
     console.log('Server started on port 3000');
 });
