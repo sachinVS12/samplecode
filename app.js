@@ -204,6 +204,13 @@ if (!message) {
 }
   client.publish('emit', message);
   res.send('Message published successfully');
+});
+
+app.post('/auth', (req, res) => {
+  const { message } = req.body;
+  if (!message) {
+    return res.status(400).send('Message is required'); 
+  }
 })
 
 app.listen(3000, () => {
