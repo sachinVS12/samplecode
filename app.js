@@ -211,7 +211,18 @@ app.post('/auth', (req, res) => {
   if (!message) {
     return res.status(400).send('Message is required'); 
   }
-})
+});
+
+// app.get('/alltask', (req, res) => {
+//   try{
+//     const { message } = req.body;
+//   if (condition) {
+//     return res.status(400).send('Message is required');
+//   } else {
+//     return
+//   }  
+//   }
+//   );
 
 app.listen(3000, () => {
     console.log('Server started on port 3000');
