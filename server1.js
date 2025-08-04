@@ -7,8 +7,8 @@ class MQTTPublisher {
         this.count = 1;
 
         // Frequency sweep setup
-        this.freq_min = 200;
-        this.freq_max = 1700;
+        this.freq_min = 300;
+        this.freq_max = 900;
         this.frequency = this.freq_min;
         this.freq_direction = 1; // 1 = increasing, -1 = decreasing
         this.freq_step = 50; // Hz per message
