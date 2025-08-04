@@ -6,7 +6,7 @@ class MQTTPublisher {
         this.topics = Array.isArray(topics) ? topics : [topics];
         this.count = 1;
 
-        this.frequency = 200;
+        this.frequency = 500;
         var amp = 2;
         this.amplitude = ((amp * 0.5) / (3.3 / 65535));
         this.offset = 32768;
@@ -16,7 +16,7 @@ class MQTTPublisher {
         this.current_time = 0.0;
 
         this.channel = 6; // Total channels (4 main + 2 tacho)
-        this.main_channels = 4; // CH1, CH2, CH3, CH4
+        this.main_channels = 2; // CH1, CH2, CH3, CH4
         this.frame_index = 0;
         this.timer = null;
 

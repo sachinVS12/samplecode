@@ -22,8 +22,8 @@ class MQTTPublisher {
         this.time_per_message = 1.0;
         this.current_time = 0.0;
 
-        this.channel = 6; // Total: 4 main + 2 tacho
-        this.main_channels = 4;
+        this.channel = 12; // Total: 4 main + 2 tacho
+        this.main_channels = 10;
         this.frame_index = 0;
         this.timer = null;
 
